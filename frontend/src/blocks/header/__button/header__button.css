@@ -1,0 +1,29 @@
+.header__button {
+    display: none;
+    padding-right: 30px;
+    width: 24px;
+    height: 24px;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.header__button div {
+    width: 100%;
+    margin-bottom: 6px;
+    border-bottom: 3px solid #fff;
+}
+
+.header__button div:last-of-type {
+    margin-bottom: 0;
+}
+
+.header__button:hover {
+    cursor: pointer;
+    opacity: .6;
+}
+
+@media screen and (max-width: 620px) {
+    .header__button {
+        display: flex;
+        flex-direction: column;
+    }
+}

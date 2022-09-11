@@ -1,0 +1,10 @@
+.header__reg-data {
+    display: flex;
+    align-self: center;
+}
+
+@media screen and (max-width: 620px) {
+    .header__reg-data {
+        display: none;
+    }
+}

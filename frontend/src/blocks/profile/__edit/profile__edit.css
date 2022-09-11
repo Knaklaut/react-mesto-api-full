@@ -1,0 +1,11 @@
+.profile__edit {
+  max-width: 400px;
+  display: flex;
+  align-items: baseline;
+}
+
+@media screen and (max-width: 620px) {
+  .profile__edit {
+    width: 100%;
+  }
+}

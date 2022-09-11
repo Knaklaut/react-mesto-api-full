@@ -1,0 +1,23 @@
+.photobook__elements {
+  width: 100%;
+  margin: 0 auto;
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(auto, 1fr);
+  gap: 20px 17px;
+  justify-items: center;
+}
+
+@media screen and (max-width: 890px) {
+  .photobook__elements {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .photobook__elements {
+    grid-template-columns: 1fr;
+  }
+}

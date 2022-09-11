@@ -1,0 +1,13 @@
+.popup__photo_function_info {
+    max-width: 120px;
+    max-height: 120px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 620px) {
+    .popup__photo_function_info {
+        margin-bottom: 40px;
+    }
+}
