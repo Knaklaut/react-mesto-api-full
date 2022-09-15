@@ -30,9 +30,9 @@ function App() {
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({ isOpen: false, element: {} });
   const [dataStored, setDataStored] = useState(false);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
       auth.getUserToken(token)
         .then(() => {
           setLoggedIn(true);
@@ -123,7 +123,7 @@ function App() {
     .then(data => {
       if (data) {
         handleInfoTooltip(true);
-        history.push('/sign-in');
+        history.push('/signin');
       }
     })
     .catch(err => {
@@ -152,12 +152,12 @@ function App() {
     setLoggedIn(false);
     setEmail(null);
     localStorage.removeItem('token');
-    history.push('/sign-in');
+    history.push('/signin');
   }
 
   function handleUpdateUser(newUserData) {
     setDataStored(true);
-    api.updateUserInfo(newUserData)
+    api.updateUserInfo(newUserData, token)
       .then(data => {
         setCurrentUser(data);
         closeAllPopups();
@@ -172,7 +172,7 @@ function App() {
 
   function handleUpdateAvatar(newAvatarLink) {
     setDataStored(true);
-    api.changeAvatar(newAvatarLink)
+    api.changeAvatar(newAvatarLink, token)
       .then(data => {
         setCurrentUser({ ...currentUser, avatar: data.avatar });
         closeAllPopups();
@@ -187,7 +187,7 @@ function App() {
 
   function handleAddNewCard(cardData) {
     setDataStored(true);
-    api.postNewCard(cardData)
+    api.postNewCard(cardData, token)
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups();
@@ -201,20 +201,20 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     function handleNewCardLike (newCard) {
       const newCards = cards.map((c) => c._id === card._id ? newCard : c);
       setCards(newCards);
     }
     
     if (!isLiked) {
-      api.addLike(card._id)
+      api.addLike(card._id, token)
         .then(handleNewCardLike)
         .catch(err => {
           console.log(err);
         });
     } else {
-      api.deleteLike(card._id)
+      api.deleteLike(card._id, token)
         .then(handleNewCardLike)
         .catch(err => {
           console.log(err);
@@ -224,7 +224,7 @@ function App() {
 
   function handleCardDelete(card) {
     setDataStored(true);
-    api.deleteCard(card._id)
+    api.deleteCard(card._id, token)
       .then(() => {
         const newCards = cards.filter(c => c._id === card._id ? false : true);
         setCards(newCards);
@@ -257,11 +257,11 @@ function App() {
           onDeleteCard={ handleDeletionConfirm }
         />
 
-        <Route path="/sign-in">
+        <Route path="/signin">
           <Login loggedIn={loggedIn} onLogin={ handleUserLogin } />
         </Route>
 
-        <Route path="/sign-up">
+        <Route path="/signup">
           <Register loggedIn={loggedIn} onRegister={ handleUserRegister } />
         </Route>
       </Switch>

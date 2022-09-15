@@ -108,9 +108,9 @@ class Api {
 
 // Создание экземпляра класса Api
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-42',
+  baseUrl: 'https://api.knaklaut.nomoredomains.sbs',
   headers: {
-    authorization: '80fc334b-f81e-41e3-bc94-e3092578949b',
+    authorization: `Bearer ${this._token}`,
     'Content-Type': 'application/json'
   }
 });
