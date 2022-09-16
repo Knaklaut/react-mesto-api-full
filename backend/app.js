@@ -8,7 +8,6 @@ const { errors } = require('celebrate');
 
 const { validationAuth, validationUser } = require('./middlewares/validityCheck');
 const auth = require('./middlewares/auth');
-const corsOptions = require('./middlewares/cors');
 const { generalProcessor, notFoundProcessor } = require('./middlewares/errProcessor');
 const createUser = require('./routes/newUserRouter');
 const login = require('./routes/login');
@@ -20,7 +19,7 @@ const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/crash-test', () => {
