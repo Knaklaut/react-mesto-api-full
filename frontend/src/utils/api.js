@@ -1,8 +1,9 @@
+const baseUrl = 'https://api.knaklaut.nomoredomains.sbs';
+
 // Класс Api описывает функциональность для обмена данными с сервером
 class Api {
-  constructor({ baseUrl, headers }) {
+  constructor(baseUrl) {
     this._baseUrl = baseUrl;
-    this._token = headers['authorization'];
     this._userUrl = `${this._baseUrl}/users/me`;
     this._cardsUrl = `${this._baseUrl}/cards`;
     this._likesUrl = `${this._baseUrl}/cards/likes`;
@@ -15,104 +16,95 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`)
   }
 
-  setToken(token) {
-    this._headers.authorization = `Bearer ${token}`;
-  }
-
-  getUserInfo() {
+  getUserInfo(token) {
     return fetch(this._userUrl, {
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${token}`,
       }
     })
-    .then(this._checkServerData);
+    .then(res => this._checkServerData(res));
   }
 
-  getInitialCards() {
+  getInitialCards(token) {
     return fetch(this._cardsUrl, {
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${token}`,
       }
     })
-    .then(this._checkServerData);
+    .then(res => this._checkServerData(res));
   }
 
-  updateUserInfo({ name, about }) {
+  updateUserInfo({ name, about }, token) {
     return fetch(this._userUrl, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ name: name, about: about })
     })
-    .then(this._checkServerData)
+    .then(res => this._checkServerData(res));
   }
 
-  changeAvatar({ avatar }) {
+  changeAvatar({ avatar }, token) {
     return fetch(`${this._userUrl}/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ avatar: avatar })
     })
-    .then(this._checkServerData)
+    .then(res => this._checkServerData(res));
   }
 
-  postNewCard({ name, link }) {
+  postNewCard({ name, link }, token) {
     return fetch(this._cardsUrl, {
       method: 'POST',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ name: name, link: link })
     })
-    .then(this._checkServerData);
+    .then(res => this._checkServerData(res));
   }
 
-  addLike(cardId) {
+  addLike(cardId, token) {
     return fetch(`${this._likesUrl}/${cardId}`, {
       method: 'PUT',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
     })
-    .then(this._checkServerData);
+    .then(res => this._checkServerData(res));
   }
 
-  deleteLike(cardId) {
+  deleteLike(cardId, token) {
     return fetch(`${this._likesUrl}/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
     })
-    .then(this._checkServerData);
+    .then(res => this._checkServerData(res));
   }
 
-  deleteCard(cardId) {
+  deleteCard(cardId, token) {
     return fetch(`${this._cardsUrl}/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._token
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     })
-    .then(this._checkServerData);
+    .then(res => this._checkServerData(res));
   }
 }
 
 // Создание экземпляра класса Api
-const api = new Api({
-  baseUrl: 'https://api.knaklaut.nomoredomains.sbs',
-  headers: {
-    authorization: `Bearer ${this._token}`,
-    'Content-Type': 'application/json'
-  }
-});
+const api = new Api(baseUrl);
 
 export default api;
