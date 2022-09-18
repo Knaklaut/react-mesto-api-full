@@ -7,6 +7,7 @@ const cors = require('cors');
 const { errors } = require('celebrate');
 
 const { validationAuth, validationUser } = require('./middlewares/validityCheck');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const auth = require('./middlewares/auth');
 const { generalProcessor, notFoundProcessor } = require('./middlewares/errProcessor');
 const createUser = require('./routes/newUserRouter');
@@ -22,6 +23,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(requestLogger);
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -33,6 +35,7 @@ app.use(auth);
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
 app.use(notFoundProcessor);
+app.use(errorLogger);
 app.use(errors());
 app.use(generalProcessor);
 

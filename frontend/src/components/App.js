@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { Route, useHistory, Link, Redirect, Switch } from 'react-router-dom';
 import api from '../utils/api';
 import auth from '../utils/auth';
-import Register from '../routes/Register';
-import Login from '../routes/Login';
+import Register from './Register';
+import Login from './Login';
 import InfoTooltip from './InfoTooltip';
-import PageNotFound from '../routes/PageNotFound';
+import PageNotFound from './PageNotFound';
 import ProtectedRoute from './ProtectedRoute';
 import Header from './Header';
-import Main from '../routes/Main';
+import Main from './Main';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -32,7 +32,7 @@ function App() {
 
   useEffect(() => {
     checkToken();
-  }, []);
+  });
 
   useEffect(() => {
     if (loggedIn) {
