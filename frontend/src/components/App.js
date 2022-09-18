@@ -48,6 +48,20 @@ function App() {
     }
   }, [loggedIn]);
 
+  useEffect(() => {
+    if (isInfoTooltipPopupOpen || isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddCardPopupOpen || selectedCard) {
+      function handleEscClose(evt) {
+        if (evt.key === 'Escape') {
+          closeAllPopups();
+        }
+      }
+      document.addEventListener('keydown', handleEscClose);
+      return() => {
+        document.removeEventListener('keydown', handleEscClose);
+      }
+    }
+  });
+
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
   }
@@ -163,6 +177,12 @@ function App() {
       .catch(err => console.log(err));
   }
 
+  function handleOverlayClickClose(evt) {
+    if (evt.target.classList.contains('popup')) {
+      closeAllPopups();
+    }
+  }
+
   function closeAllPopups() {
     setInfoTooltipPopupOpen(false);
     setEditProfilePopupOpen(false);
@@ -175,11 +195,12 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <AuthContext.Provider value={{ loggedIn: loggedIn, userEmail: userEmail }}>
         <div className="page">
+
           <Header onSignOut={handleExitClick} />
           <main className="container">
             <Link to="/signup"></Link>
             <Switch>
-              <ProtectedRoute exact path="/" component={Main} loggedIn={loggedIn} cards={cards} onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddCard={handleAddCardClick} onCardClick={handleCardClick} onCardLike={handleLikeCard} onCardDelete={handleDeleteCard} />
+              <ProtectedRoute exact path="/" component={Main} loggedIn={loggedIn} cards={cards} onEditProfile={handleEditProfileClick} onEditAvatar={handleEditAvatarClick} onAddCard={handleAddCardClick} onCardClick={handleCardClick} onCardLike={handleLikeCard} onCardDelete={handleDeleteCard}  />
               <Route path="/signup">
                 <Register onRegister={sendRegisterInfo} />
               </Route>
@@ -199,31 +220,37 @@ function App() {
           <InfoTooltip
             isOpen={isInfoTooltipPopupOpen}
             isSuccessful={isSuccessful}
+            onOverlayClose = {handleOverlayClickClose}
             onClose={closeAllPopups}
           />
 
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onUpdateUser={handleUpdateUser}
+            onOverlayClose = {handleOverlayClickClose}
             onClose={closeAllPopups}
           />
 
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onUpdateAvatar={handleUpdateAvatar}
+            onOverlayClose = {handleOverlayClickClose}
             onClose={closeAllPopups}
           />
 
           <AddPlacePopup
             isOpen={isAddCardPopupOpen}
             onAddCard={handleAddCard}
+            onOverlayClose = {handleOverlayClickClose}
             onClose={closeAllPopups}
           />
 
           <ImagePopup
             card={selectedCard}
+            onOverlayClose = {handleOverlayClickClose}
             onClose={closeAllPopups}
           />
+
         </div>
       </AuthContext.Provider>
     </CurrentUserContext.Provider>

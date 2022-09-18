@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup({ isOpen, onClose, onAddCard }) {
+function AddPlacePopup({ isOpen, onClose, onOverlayClose, onAddCard }) {
   const [ name, setName ] = useState('');
   const [ link, setLink ] = useState('');
 
@@ -25,16 +25,18 @@ function AddPlacePopup({ isOpen, onClose, onAddCard }) {
   }, [isOpen]);
 
   return (
-    <PopupWithForm title="Новое место" name="photo-add" buttonText="Создать" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
-      <label className="form__item">
-        <input className="form__input" name="photo-name" type="text" value={name || ''} placeholder="Название" minLength="2" maxLength="30" required onChange={handleChange} />
-        <span className="form__input-error" id="error-photo-name">Заполните это поле.</span>
-      </label>
-      <label className="form__item">
-        <input className="form__input" name="photo-link" type="url" value={link || ''} placeholder="Ссылка на картинку" required onChange={handleChange} />
-        <span className="form__input-error" id="error-photo-link">Заполните это поле.</span>
-      </label>
-    </PopupWithForm>
+    <section onClick={onOverlayClose}>
+      <PopupWithForm title="Новое место" name="photo-add" buttonText="Создать" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+        <label className="form__item">
+          <input className="form__input" name="photo-name" type="text" value={name || ''} placeholder="Название" minLength="2" maxLength="30" required onChange={handleChange} />
+          <span className="form__input-error" id="error-photo-name">Заполните это поле.</span>
+        </label>
+        <label className="form__item">
+          <input className="form__input" name="photo-link" type="url" value={link || ''} placeholder="Ссылка на картинку" required onChange={handleChange} />
+          <span className="form__input-error" id="error-photo-link">Заполните это поле.</span>
+        </label>
+      </PopupWithForm>
+    </section>
   )
 }
 
