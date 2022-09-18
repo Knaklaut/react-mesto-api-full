@@ -1,0 +1,9 @@
+.popup__content_type_form {
+  padding: 25px 22px;
+}
+
+@media (min-width: 1280px) {
+  .popup__content_type_form {
+    padding: 34px 36px 37px;
+  }
+}

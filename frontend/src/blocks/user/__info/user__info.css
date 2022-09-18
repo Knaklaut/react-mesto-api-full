@@ -1,0 +1,11 @@
+.user__info {
+  margin-top: 26px;
+}
+
+@media (min-width: 1280px) {
+  .user__info {
+    max-width: 75%;
+    margin-top: initial;
+    margin-left: 30px;
+  }
+}

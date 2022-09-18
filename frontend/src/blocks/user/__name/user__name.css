@@ -1,0 +1,11 @@
+.user__name {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+@media (min-width: 1280px) {
+  .user__name {
+    justify-content: flex-start;
+  }
+}

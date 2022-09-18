@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const { generateToken } = require('../utils/jwt');
 const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const AuthError = require('../errors/AuthError');
@@ -105,8 +105,6 @@ const updateUserAvatar = (req, res, next) => {
     });
 };
 
-const tokenGen = (payload, term) => jwt.sign(payload, 'some-secret-key', { expiresIn: term });
-
 const login = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email }).select('+password')
@@ -121,9 +119,9 @@ const login = (req, res, next) => {
     })
     .then(([user, isPasswordCorrect]) => {
       if (!isPasswordCorrect) {
-        throw new AuthError('Не правильный email или пароль.');
+        throw new AuthError('Неправильный email или пароль.');
       }
-      return tokenGen({ _id: user._id }, '7d');
+      return generateToken({ _id: user._id }, '7d');
     })
     .then((token) => {
       res.send({ token });

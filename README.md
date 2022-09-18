@@ -3,5 +3,5 @@
   
 ## Основные данные
 * Public IP: 51.250.91.133
-* Domain: knaklaut.nomorepartiesxyz.ru
-* API: api.knaklaut.nomoredomains.sbs
+* Frontend domain: knaklaut.nomorepartiesxyz.ru
+* Backend API: api.knaklaut.nomoredomains.sbs

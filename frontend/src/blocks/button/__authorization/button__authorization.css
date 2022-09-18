@@ -1,0 +1,9 @@
+.button__authorization {
+  background-color: #fff;
+  color: #000;
+  transition: opacity .4s ease-in-out;
+}
+
+.button__authorization:hover {
+  opacity: .8;
+}

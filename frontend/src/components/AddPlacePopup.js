@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
-import PopupWithForm from './PopupWithForm.js';
+import { useState, useEffect } from 'react';
+import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup({ isOpen, onClose, onAddCard, isStoring }) {
-    const [name, addName] = useState('');
-    const [link, addLink] = useState('');
+function AddPlacePopup({ isOpen, onClose, onAddCard }) {
+  const [ name, setName ] = useState('');
+  const [ link, setLink ] = useState('');
 
-    function handleAddName(evt) {
-        addName(evt.target.value);
-    }
+  function handleChange(evt) {
+    const el = evt.target;
+    if (el.name === 'photo-name') setName(el.value);
+    if (el.name === 'photo-link') setLink(el.value);
+  }
 
-    function handleAddLink(evt) {
-        addLink(evt.target.value);
-    }
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onAddCard({
+      name: name,
+      link: link
+    });
+  }
 
-    function handleSubmit(evt) {
-        evt.preventDefault();
-        onAddCard({ name, link });
-    }
+  useEffect(() => {
+    setName('');
+    setLink('');
+  }, [isOpen]);
 
-    React.useEffect(() => {
-        addName('');
-        addLink('');
-    }, [isOpen]);
-
-    return (
-        <PopupWithForm title="Новое место" buttonName={ isStoring ? 'Сохранение...' : 'Создать' } isOpen={ isOpen } onClose={ onClose } onSubmit={ handleSubmit }>
-            <input className="popup__input popup__input_add-card_name" value={name} onChange={ handleAddName } id="card-name-input" type="text" placeholder="Введите ваше имя" name="name" minLength="2" maxLength="40" required />
-            <span className="popup__input-error" id="card-name-input-error"></span>
-            <input className="popup__input popup__input_add-card_link" value={link} onChange={ handleAddLink } id="card-link-input" type="url" placeholder="Ссылка на картинку" name="link" required />
-            <span className="popup__input-error" id="card-link-input-error"></span>
-        </PopupWithForm>
-    );
+  return (
+    <PopupWithForm title="Новое место" name="photo-add" buttonText="Создать" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+      <label className="form__item">
+        <input className="form__input" name="photo-name" type="text" value={name || ''} placeholder="Название" minLength="2" maxLength="30" required onChange={handleChange} />
+        <span className="form__input-error" id="error-photo-name">Заполните это поле.</span>
+      </label>
+      <label className="form__item">
+        <input className="form__input" name="photo-link" type="url" value={link || ''} placeholder="Ссылка на картинку" required onChange={handleChange} />
+        <span className="form__input-error" id="error-photo-link">Заполните это поле.</span>
+      </label>
+    </PopupWithForm>
+  )
 }
 
 export default AddPlacePopup;

@@ -1,0 +1,14 @@
+.footer__data {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #545454;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@media (min-width: 1280px) {
+  .footer__data {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

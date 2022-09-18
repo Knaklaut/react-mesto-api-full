@@ -1,41 +1,47 @@
-import React, { useState, useContext, useEffect } from 'react';
-import PopupWithForm from './PopupWithForm.js';
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { useState, useContext, useEffect } from 'react';
+import PopupWithForm from './PopupWithForm';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, isStoring }) {
-    const currentUser = useContext(CurrentUserContext);
-    const [ name, setName ] = useState('');
-    const [ about, setAbout ] = useState('');
+function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+  const currentUser = useContext(CurrentUserContext);
+  const [ name, setName ] = useState('');
+  const [ userInfo, setUserInfo ] = useState('');
 
-    useEffect(() => {
-        setName(currentUser.name);
-        setAbout(currentUser.about);
-    }, [currentUser, isOpen]);
-
-    function handleSetName(evt) {
-        setName(evt.target.value);
+  function handleChange(evt) {
+    const el = evt.target;
+    if (el.name === 'user-name') {
+      setName(el.value);
     }
-
-    function handleSetAbout(evt) {
-        setAbout(evt.target.value);
+    if (el.name === 'user-about') {
+      setUserInfo(el.value);
     }
+  }
 
-    function handleSubmit(evt) {
-        evt.preventDefault();
-        onUpdateUser({
-            name,
-            about: about
-        });
-    }
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onUpdateUser({
+      name,
+      about: userInfo,
+    });
+  }
 
-    return (
-        <PopupWithForm title="Редактировать профиль" name="user-info" isOpen={ isOpen } onClose={ onClose } buttonName={ isStoring ? 'Сохранение...' : 'Сохранить' } onSubmit={ handleSubmit }>
-            <input className="popup__input popup__input_el_name" name="userName" value={ name || '' } id="name-input" type="text" onChange={ handleSetName } placeholder="Введите ваше имя" minLength="2" maxLength="40" required />
-            <span className="popup__input-error" id="name-input-error"></span>
-            <input className="popup__input popup__input_el_about" name="userAbout" value={ about || '' } id="about-input" type="text" onChange={ handleSetAbout } placeholder="Введите вашу профессию" minLength="2" maxLength="200" required />
-            <span className="popup__input-error" id="about-input-error"></span>
-        </PopupWithForm>
-    );
+  useEffect(() => {
+    setName(currentUser.name);
+    setUserInfo(currentUser.about);
+  }, [isOpen, currentUser]);
+
+  return (
+    <PopupWithForm title="Редактировать профиль" name="user-info-edit" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+      <label className="form__item">
+        <input className="form__input" name="user-name" value={name || ''} type="text" placeholder="Имя" minLength="2" maxLength="40" required onChange={handleChange} />
+        <span className="form__input-error" id="error-user-name"></span>
+      </label>
+      <label className="form__item">
+        <input className="form__input" name="user-about" value={userInfo || ''} type="text" placeholder="О себе" minLength="2" maxLength="200" required onChange={handleChange} />
+        <span className="form__input-error" id="error-user-about"></span>
+      </label>
+    </PopupWithForm>
+  )
 }
 
 export default EditProfilePopup;

@@ -1,0 +1,17 @@
+.menu__exit {
+  margin-top: 18px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #A9A9A9;
+  font-size: 18px;
+  line-height: 22px;
+  cursor: pointer;
+}
+
+@media (min-width: 1280px) {
+  .menu__exit {
+    margin-top: initial;
+    margin-left: 24px;
+  }
+}

@@ -1,5 +1,14 @@
 .header__container {
-    display: flex;
-    justify-content: space-between;
+  padding: 28px 32px 28px 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+@media (min-width: 1280px) {
+  .header__container {
+    padding: initial;
     align-items: center;
+  }
 }

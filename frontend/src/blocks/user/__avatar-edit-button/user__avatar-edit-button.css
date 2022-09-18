@@ -1,0 +1,37 @@
+.user__avatar-edit-button {
+  padding: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  transition: background-color .4s ease-in-out;
+}
+
+.user__avatar-edit-button:hover,
+.user__avatar-edit-button:focus-visible {
+  background: rgba(0, 0, 0, .8);
+  cursor: pointer;
+}
+
+.user__avatar-edit-button::before {
+  content: '';
+  width: 26px;
+  height: 26px;
+  background-image: url(../../../images/edit.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0;
+  transition: opacity .4s ease-in-out;
+}
+
+.user__avatar-edit-button:hover.user__avatar-edit-button::before,
+.user__avatar-edit-button:focus.user__avatar-edit-button::before {
+  opacity: 1;
+}

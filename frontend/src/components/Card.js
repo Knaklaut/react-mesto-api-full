@@ -1,38 +1,37 @@
-import React, { useContext } from 'react';
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { useContext } from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Card(props) {
-    const currentUser = useContext(CurrentUserContext);
-    const isOwn = props.card.owner === currentUser._id;
-    const cardDeleteButtonClassName = `card__delete-button ${isOwn ? 'card__delete-button_visible' : ''}`;
-    const isLiked = props.card.likes.some(id => id === currentUser._id);
-    const cardLikeButtonClassName = `card__like-button ${isLiked ? 'card__like-button_active' : ''}`;
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+  const currentUser = useContext(CurrentUserContext);
+  const isOwn = card.owner === currentUser._id;
+  const isLiked = card.likes.some(id => id === currentUser._id);
 
-    function handleCardClick() {
-        props.onCardSelect(props.card);
-    }
+  function handleClick() {
+    onCardClick(card);
+  }
 
-    function handleLikeClick() {
-        props.onCardLike(props.card);
-    }
+  function handleLikeClick() {
+    onCardLike(card);
+  }
 
-    function handleDeleteClick() {
-        props.onCardDelete(props.card);
-    }
+  function handleDeleteClick() {
+    onCardDelete(card._id);
+  }
 
-    return (
-        <li className="card">
-            <img className="card__photo" src={props.card.link} alt={props.card.name} onClick={ handleCardClick } />
-            <button className={cardDeleteButtonClassName} type="button" onClick={ handleDeleteClick } />
-            <div className="card__description">
-                <h2 className="card__place">{props.card.name}</h2>
-                <div className="card__like-section">
-                    <button className={cardLikeButtonClassName} type="button" onClick={ () => handleLikeClick(props.card) } />
-                    <p className="card__like-counter">{props.card.likes.length}</p>
-                </div>
-            </div>
-        </li>
-    )
+  return (
+    <li className="cards__item">
+      <article className="card">
+        {isOwn && <button className="card__remove-button" onClick={handleDeleteClick} />}
+        <img className="card__photo" src={card.link} alt={card.name} onClick={handleClick} />
+          <div className="card__info">
+            <h2 className="card__name">{card.name}</h2>
+            <button className={`card__like-button ${isLiked ? 'card__like-button_active' : ''}`} onClick={handleLikeClick}>
+              <span className="card__like-counter">{card.likes.length}</span>
+            </button>
+          </div>
+      </article>
+    </li>
+  );
 }
 
 export default Card;

@@ -1,0 +1,19 @@
+.menu {
+  padding: 40px;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  order: -1;
+}
+
+@media (min-width: 1280px) {
+  .menu {
+    width: initial;
+    padding: initial;
+    border: initial;
+    display: flex;
+    flex-direction: row;
+    order: 1;
+  }
+}

@@ -1,0 +1,23 @@
+.button {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 17px;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color .6s;
+}
+
+@media (min-width: 1280px) {
+  .button {
+    margin-top: 48px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+.button:hover {
+  opacity: .8;
+}

@@ -1,0 +1,9 @@
+.popup__content_type_infotooltip {
+  padding: 50px 18px;
+}
+
+@media (min-width: 1280px) {
+  .popup__content_type_infotooltip {
+    padding: 60px 36px;
+  }
+}

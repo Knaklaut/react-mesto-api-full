@@ -1,0 +1,19 @@
+.user__about {
+  margin-top: 14px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+@media (min-width: 1280px) {
+  .user__about {
+    margin-top: 16px;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

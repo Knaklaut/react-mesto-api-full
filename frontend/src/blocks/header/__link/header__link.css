@@ -1,26 +1,12 @@
 .header__link {
+  font-size: 14px;
+  line-height: 17px;
+}
+
+@media (min-width: 1280px) {
+  .header__link {
     font-size: 18px;
-    font-weight: 400;
-    line-height: 1.2;
-    text-decoration: none;
-    align-self: center;
-    color: #fff;
-    transition: opacity .4s ease-in-out;
+    line-height: 22px;
+  }
 }
 
-.header__link:hover {
-    cursor: pointer;
-    opacity: .6;
-}
-
-@media screen and (max-width: 890px) {
-    .header__link {
-        padding-right: 30px;
-    }
-}
-
-@media screen and (max-width: 620px) {
-    .header__link {
-        font-size: 14px;
-    }
-}

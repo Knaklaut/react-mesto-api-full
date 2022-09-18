@@ -1,0 +1,9 @@
+.header__logo-image {
+  height: 24px;
+}
+
+@media (min-width: 1280px) {
+  .header__logo-image {
+    height: 33px;
+  }
+}

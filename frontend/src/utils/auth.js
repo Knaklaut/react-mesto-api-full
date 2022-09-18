@@ -1,56 +1,62 @@
-export const BASE_URL = 'https://api.knaklaut.nomoredomains.sbs';
+import BASE_URL from './constants';
 
-function checkServerData(res) {
+class Auth {
+  constructor(baseUrl) {
+    this._baseUrl = baseUrl;
+  }
+
+  _checkServerData(res) {
     if (res.ok) {
-        return res.json();
+      return res.json()
     }
-    return Promise.reject(res.status);
-}
+    return Promise.reject(`Ошибка: ${res.status}`)
+  }
 
-export function register(email, password) {
-    return fetch (`${BASE_URL}/signup`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email, password
-        })
+  register(email, password) {
+    return fetch(`https://${this._baseUrl}/signup`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ password, email })
     })
-    .then(checkServerData);
-}
+      .then(res => this._checkServerData(res))
+  }
 
-export function login(email, password) {
-    return fetch (`${BASE_URL}/signin`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-            body: JSON.stringify({
-                email, password
-            })
-        })
-        .then(res => checkServerData(res))
-        .then(res => {
-            if (res.token) {
-                localStorage.setItem('jwt', res.token);
-                localStorage.setItem('email', email);
-                return res;
-            }
-        })
-    }
-
-export function getUserToken(token) {
-    return fetch (`${BASE_URL}/users/me`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+  authorize(email, password) {
+    return fetch(`https://${this._baseUrl}/signin`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ password, email })
+    })
+      .then(res => this._checkServerData(res))
+      .then(res => {
+        if (res.token) {
+          localStorage.setItem('jwt', res.token);
+          localStorage.setItem('email', email);
+          return res;
         }
+      })
+  }
+
+  checkToken(token) {
+    return fetch(`https://${this._baseUrl}/users/me`, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
     })
-    .then(res => checkServerData(res))
-    .then(res => res);
+      .then(res => this._checkServerData(res))
+      .then(res => res)
+  }
 }
+
+const auth = new Auth(BASE_URL);
+
+export default auth;

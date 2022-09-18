@@ -1,15 +1,15 @@
-import React from 'react';
-
-function ImagePopup({ card: { isOpen, element: { name, link } }, onClose }) {
-    return (
-        <section className={`popup popup_function_open-photo ${ isOpen ? "popup_opened" : '' }`}>
-            <div className="popup__elements">
-                <button className="popup__close" type="button" onClick={ onClose } />
-                <img className="popup__photo" src={link} alt={name} />
-                <h2 className="popup__photo-title">{name}</h2>
-            </div>
-        </section>
-    )
+function ImagePopup({ card, onClose }) {
+  return (
+    <section className={`popup popup__underlay ${card._id && 'popup_opened'}`}>
+      <div className="popup__container">
+        <button className="popup__close-button" type="button" onClick={onClose}></button>
+        <figure className="popup__figure">
+          <img className="popup__image" src={`${card.link}`} alt={`${card.name}.`} />
+          <figcaption className="popup__caption">{card.name}</figcaption>
+        </figure>
+      </div>
+    </section>
+  );
 }
 
 export default ImagePopup;
